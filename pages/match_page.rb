@@ -25,5 +25,4 @@ class MatchPage < Helpers
     @match_playtime_wait.until { element_present?(@post_game_close) }
     click_on(@post_game_close) while element_present?(@post_game_close)
   end
-
 end

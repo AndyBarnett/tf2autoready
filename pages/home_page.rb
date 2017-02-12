@@ -34,7 +34,7 @@ class HomePage < Helpers
     fill_in(@email_field, email)
     fill_in(@password_field, password)
     click_on(@login_submit_button)
-    @element_wait.until { !element_present?(@login_modal) }
+    @element_wait.until { !element_present?(@login_submit_button) }
   end
 
   def start_queueing(preferred_ladder, preferred_join_type)
