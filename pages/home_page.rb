@@ -1,4 +1,5 @@
 require 'selenium-webdriver'
+require 'selenium/webdriver/support/select'
 require_relative '../support/helpers'
 
 class HomePage < Helpers
@@ -39,17 +40,22 @@ class HomePage < Helpers
 
   def start_queueing(preferred_ladder, preferred_join_type)
     click_on(@play_game_button)
+    sleep 5
     click_on(@ladder_dropdown)
 
-    ladder_selected = false
+    # dropdown_options = Selenium::WebDriver::Support::Select.new(find_element(@ladder_dropdown))
+    # puts dropdown_options.options[0].text
+    # dropdown_options.select_by(:text, "#{preferred_ladder} (97/20000)")
+
     find_elements(@ladders).each do |ladder|
       if ladder.text.include?(preferred_ladder)
         ladder.click
-        ladder_selected = true
+        @ladder_selected = true
         break
       end
     end
-    raise('ladder not found') unless ladder_selected
+
+    raise('ladder not found') unless @ladder_selected
 
     click_on(@play_game_modal)
 
@@ -76,5 +82,7 @@ class HomePage < Helpers
     click_on(@did_not_check_in_ok)
   end
 
-
+  def did_not_check_in_modal_present
+    element_present?(@did_not_check_in_modal)
+  end
 end
