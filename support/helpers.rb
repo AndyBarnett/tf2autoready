@@ -3,20 +3,21 @@ require 'selenium-webdriver'
 class Helpers
 
   def initialize(driver)
+    @element_wait = Selenium::WebDriver::Wait.new(:timeout => 3)
     @driver = driver
   end
 
-  def find_element(ele)
-    @element_wait.until { @driver.find_element(ele[:by], ele[:selector]) }
+  def fi_find_element(ele, wait = @element_wait)
+    wait.until { @driver.fi_find_element(ele[:by], ele[:selector]) }
   end
 
-  def find_elements(ele)
-    @element_wait.until { @driver.find_elements(ele[:by], ele[:selector]) }
+  def fi_find_elements(ele, wait = @element_wait)
+    wait.until { @driver.fi_find_elements(ele[:by], ele[:selector]) }
   end
 
-  def element_present?(ele)
+  def element_present?(ele, wait = @element_wait)
     begin
-      @driver.find_element(ele[:by], ele[:selector])
+      @driver.fi_find_element(ele, wait)
       true
     rescue
       false
@@ -24,10 +25,10 @@ class Helpers
   end
 
   def click_on(ele)
-    find_element(ele).click
+    fi_find_element(ele).click
   end
 
   def fill_in(ele, value)
-    find_element(ele).send_keys(value)
+    fi_find_element(ele).send_keys(value)
   end
 end

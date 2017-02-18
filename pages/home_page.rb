@@ -20,6 +20,9 @@ class HomePage < Helpers
     @set_ready = {by: :css, selector: ".modal-dialog__actions button.btn-primary[translate-once='ACCEPT']"}
     @did_not_check_in_modal = {by: :css, selector: "label[translate-once='OTHERS-DIDNT-CHECK-IN']"}
     @did_not_check_in_ok = {by: :css, selector: ".modal-dialog__actions .btn-primary[translate-once='OK']"}
+    @any_continue_button = {by: :css, selector: ".btn-primary[translate-once='CONTINUE']"}
+    @any_ok_button = {by: :css, selector: ".btn-primary[translate-once='OK']"}
+    @any_accept_button = {by: :css, selector: ".btn-primary[translate-once='ACCEPT']"}
 
     @driver = driver
     @element_wait = Selenium::WebDriver::Wait.new(:timeout => 3)
@@ -43,11 +46,11 @@ class HomePage < Helpers
     sleep 5
     click_on(@ladder_dropdown)
 
-    # dropdown_options = Selenium::WebDriver::Support::Select.new(find_element(@ladder_dropdown))
+    # dropdown_options = Selenium::WebDriver::Support::Select.new(fi_find_element(@ladder_dropdown))
     # puts dropdown_options.options[0].text
     # dropdown_options.select_by(:text, "#{preferred_ladder} (97/20000)")
 
-    find_elements(@ladders).each do |ladder|
+    fi_find_elements(@ladders).each do |ladder|
       if ladder.text.include?(preferred_ladder)
         ladder.click
         @ladder_selected = true
@@ -59,7 +62,7 @@ class HomePage < Helpers
 
     click_on(@play_game_modal)
 
-    find_elements(@join_types).each do |join_type|
+    fi_find_elements(@join_types).each do |join_type|
       if join_type.text == preferred_join_type
         join_type.click
         break
@@ -74,6 +77,22 @@ class HomePage < Helpers
     @queue_wait.until { element_present?(@set_ready) }
   end
 
+  def set_ready_present?
+    element_present?(@set_ready)
+  end
+
+  def ok_or_continue_or_accept_button_present?
+    element_present?(@any_ok_button) ||
+        element_present?(@any_continue_button) ||
+        element_present?(@any_accept_button)
+  end
+
+  def click_any_ok_or_continue_or_accept_button
+    click_on(@any_ok_button) if element_present?(@any_ok_button)
+    click_on(@any_continue_button) if element_present?(@any_continue_button)
+    click_on(@any_accept_button) if element_present?(@any_accept_button)
+  end
+
   def set_ready
     click_on(@set_ready)
   end
@@ -82,7 +101,7 @@ class HomePage < Helpers
     click_on(@did_not_check_in_ok)
   end
 
-  def did_not_check_in_modal_present
-    element_present?(@did_not_check_in_modal)
+  def did_not_check_in_present
+    element_present?(@did_not_check_in_ok)
   end
 end
