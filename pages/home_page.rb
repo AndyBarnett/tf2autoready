@@ -17,7 +17,14 @@ class HomePage < Helpers
     @join_types = {by: :css, selector: '.flex button'}
     @lets_play = {by: :css, selector: "button[ng-click='submit()']"}
     @continue = {by: :css, selector: "button[translate-once='CONTINUE']"}
+    @stay_free = {by: :css, selector: "span[translate-once='STAY-FREE-FOR-NOW']"}
     @set_ready = {by: :css, selector: ".modal-dialog__actions button.btn-primary[translate-once='ACCEPT']"}
+    @set_ready2 = {by: :css, selector: ".modal-dialog__actions button[translate-once='ACCEPT']"}
+    @set_ready3 = {by: :css, selector: ".modal-dialog__actions .btn-primary[translate-once='ACCEPT']"}
+    @set_ready4 = {by: :css, selector: "button[translate-once='ACCEPT']"}
+    @set_ready5 = {by: :css, selector: ".btn-primary[translate-once='ACCEPT']"}
+    @set_ready6 = {by: :css, selector: "button.btn-primary[translate-once='ACCEPT']"}
+
     @did_not_check_in_modal = {by: :css, selector: "label[translate-once='OTHERS-DIDNT-CHECK-IN']"}
     @did_not_check_in_ok = {by: :css, selector: ".modal-dialog__actions .btn-primary[translate-once='OK']"}
     @any_continue_button = {by: :css, selector: ".btn-primary[translate-once='CONTINUE']"}
@@ -70,7 +77,9 @@ class HomePage < Helpers
     end
 
     click_on(@lets_play)
-    click_on(@continue)
+    sleep 2
+    click_on(@stay_free) if element_present?(@stay_free)
+    click_on(@continue) if element_present?(@continue)
   end
 
   def wait_for_match

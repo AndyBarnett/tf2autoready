@@ -11,7 +11,7 @@ preferred_join_type = ARGV[1].nil? ? 'AS SOLO' : ARGV[1]
 email = ENV['faceit_email'].nil? ? ARGV[2] : ENV['faceit_email']
 password = ENV['faceit_password'].nil? ? ARGV[3] : ENV['faceit_password']
 
-@driver = Selenium::WebDriver.for :firefox
+@driver = Selenium::WebDriver.for :firefox, driver_path: './geckodriver.exe'
 @home_page = HomePage.new(@driver)
 @match_page = MatchPage.new(@driver)
 
@@ -26,6 +26,7 @@ def dismiss_all_cancelled_match_modals
 end
 
 def keep_clicking_orange_buttons
+  puts "gonna keep clicking orange buttons until I'm on the match page"
   while !@match_page.on_match_page
     @home_page.click_any_ok_or_continue_or_accept_button if @home_page.ok_or_continue_or_accept_button_present?
   end
@@ -33,9 +34,11 @@ end
 
 begin
   @home_page.goto
+  sleep 3
   @home_page.log_in(email, password)
 
   while true
+    sleep 2
     @home_page.goto
     @home_page.start_queueing(preferred_ladder, preferred_join_type)
     @home_page.wait_for_match

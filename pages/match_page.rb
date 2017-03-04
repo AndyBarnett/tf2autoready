@@ -23,6 +23,7 @@ class MatchPage < Helpers
   end
 
   def user_needs_to_vote
+    sleep 3
     element_present?(@voting_popup)
   end
 
