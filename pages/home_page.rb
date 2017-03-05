@@ -5,6 +5,7 @@ require_relative '../support/helpers'
 class HomePage < Helpers
 
   def initialize(driver)
+    @chat_close_button = {by: :css, selector: ".chat-window__header [ng-click='close()']"}
     @login_button = {by: :css, selector: ".btn[translate-once='LOGIN']"}
     @login_modal = {by: :class, selector: "modal-content"}
     @email_field = {by: :id, selector: 'login_email'}
@@ -83,6 +84,7 @@ class HomePage < Helpers
   end
 
   def wait_for_match
+    click_on(@chat_close_button) if element_present?(@chat_close_button)
     @queue_wait.until { element_present?(@set_ready) }
   end
 
