@@ -14,7 +14,7 @@ class MatchPage < Helpers
     @match_vote_wait = Selenium::WebDriver::Wait.new(:timeout => 300) # 5 mins for map to be chosen
     @match_warmup_wait = Selenium::WebDriver::Wait.new(:timeout => 300) # 5 mins for someone to not join
     @match_playtime_wait = Selenium::WebDriver::Wait.new(:timeout => 3600) # 60 mins for game to finish
-    @post_match_model_close_wait = Selenium::WebDriver::Wait.new(:timeout => 5) # 5s between each match finished modal appearing
+    @post_match_model_close_wait = Selenium::WebDriver::Wait.new(:timeout => 10) # 5s between each match finished modal appearing
     @driver = driver
   end
 
